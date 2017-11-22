@@ -1,0 +1,20 @@
+FROM php:7.1.8-apache
+
+COPY . /var/www/html
+WORKDIR  /var/www/html
+
+RUN docker-php-ext-install pdo pdo_mysql opcache
+RUN apt-get -y update
+
+RUN apt-get -y install git unzip
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php composer-setup.php
+RUN mv composer.phar /usr/local/bin/composer
+RUN php -r "unlink('composer-setup.php');"
+
+RUN composer install
+RUN usermod -u 1000 www-data
+RUN chown -R www-data:www-data var
+
+

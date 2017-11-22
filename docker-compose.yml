@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  php_apache:
+    build:
+      context: .
+      dockerfile: PHPDockerfile
+    ports:
+       - "8080:80"
+  
